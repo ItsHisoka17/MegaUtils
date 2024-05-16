@@ -444,7 +444,7 @@ function fbnValidate(arr){
 };
 
 //Middle-Ware for rate-limiting | Must be implemented before routes are set up
-function rateLimit(resetMS){
+function rateLimit(ipQueue, resetMS){
   return (function(req, res, next){
     
   });
