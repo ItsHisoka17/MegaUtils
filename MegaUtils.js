@@ -353,7 +353,13 @@ class MegaUtils {
     return str;
   };
 
-  //Method for searching an array for the first or multiple elements that meet the given callback(filter)
+  /*
+  Method for searching an array for the first or multiple elements that meet the given callback(filter)
+   * @param {Array} arr
+   * @param {Number} instances
+   * @param {Function} cb
+   * @returns {Array}
+  */
   static searchArray(arr, instances = 1, cb) {
     if (instances < 1) throw Error("INSTANCES CANNOT BE ZERO/NULL");
     let e = [];
@@ -375,13 +381,23 @@ class MegaUtils {
     }
   };
 
-  //Method for creating a new prototype with new arguments from an existing instance
+  /*
+  Method for creating a new prototype with new arguments from an existing instance
+   * @param {Object} c
+   * @param {Any} args
+   * @returns {Object}
+  */
   static newPrototype(c, ...args) {
     if ("object" !== typeof c) throw new ReferenceError("PARAMATER NOT ITERABLE");
     return new c.constructor(...args);
   };
 
-  //Method for finding a the first property in an object that returns true on callback
+  /*
+  Method for finding a the first property in an object that returns true on callback
+   * @param {Object} obj
+   * @param {Function} cb
+   * @returns {Any}
+  */
   static searchObj(obj, cb) {
     let p = null;
     for (let k in obj) {
@@ -398,7 +414,11 @@ class MegaUtils {
     return p;
   };
 
-  //Matches 2 arrays and returns non-duplicate elements
+  /*
+  Matches 2 arrays and returns non-duplicate elements
+   * @param {Array} args
+   * @returns {Array}
+  */
   static matchArrays(...args) {
     if (args.length !== 2) throw new Error("INVALID ARGS | 2 ARRAYS REQUIRED");
     if (args.some(e => { !Array.isArray(e) })) {
@@ -413,7 +433,12 @@ class MegaUtils {
     return misMatch;
   };
 
-  //Implementing the Two Point Sum algorithm
+  /*
+  Implementing the Two Point Sum algorithm
+   * @param {Array} arr
+   * @param {Number} target
+   * @return {Array}
+  */
   static twoPointSum(arr, target) {
     let p1 = 0;
     let p2 = arr.length - 1;
@@ -434,7 +459,11 @@ class MegaUtils {
     return match;
   };
 
-  //Implementing the Two Point Sort algorithm
+  /*
+  Implementing the Two Point Sort algorithm
+   * @param {Array} arr
+   * @returns {Array}
+  */
   static twoPointSort(arr) {
     let p1, p2;
     let i;
@@ -452,7 +481,11 @@ class MegaUtils {
     return arr;
   };
 
-  //Generates the Fibonacci Series up to a certain length
+  /*
+  Generates the Fibonacci Series up to a certain length
+   * @param {Number} n
+   * @returns {Array}
+  */
   static fbn(n) {
     let arr = [0, 1];
     let ind = 2;
@@ -466,7 +499,12 @@ class MegaUtils {
     };
     return arr;
   };
-  //More clean and effecient
+  
+  /*
+  More clean and effecient
+   * @param {Number} n
+   * @returns {Array}
+  */
   static fbn2(n) {
     let arr = [0, 1];
     for (let ind = 2; ind < n; ind++) {
@@ -475,7 +513,11 @@ class MegaUtils {
     return arr;
   };
 
-  //Checks if an array is in the Fibonacci Series
+  /*
+  Checks if an array is in the Fibonacci Series
+   * @param {Array} arr
+   * @returns {Boolean}
+  */
   static fbnValidate(arr) {
     let c;
     for (let i = 0; i < arr.length; i++) {
@@ -493,7 +535,12 @@ class MegaUtils {
     return c;
   };
 
-  //Middle-Ware for rate-limiting | Must be implemented before routes are set up
+  /*
+  Middle-Ware for rate-limiting | Must be implemented before routes are set up
+   * @param {Array} ipQueue
+   * @param {Number} resetMS
+   * @returns {Function}
+  */
   static rateLimit(ipQueue, resetMS) {
     return (function(req, res, next) {
       let userIP = req.headers["x-forwarded-for"];
