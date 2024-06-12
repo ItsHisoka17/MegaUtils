@@ -546,6 +546,7 @@ class MegaUtils {
       let userIP = req.headers["x-forwarded-for"];
       if (ipQueue[userIP]) {
         res.json({ error: "TOO MANY REQUESTS", status: 400 }).status(400);
+        return;
       };
       ipQueue[userIP] = true;
       next();
@@ -555,4 +556,6 @@ class MegaUtils {
         resetMS);
     });
   }
-};
+}; 
+
+ 
