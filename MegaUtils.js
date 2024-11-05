@@ -224,7 +224,11 @@ class MegaUtils {
       .replace(/9/g, '9️⃣');
   };
 
-  //Method for Deep-Cloning an object
+  /*
+  Method for Deep-Cloning an object
+  * @param {Object} obj
+  * @returns {Object}
+  */
   static deepClone(obj) {
     let clone = {};
     for (let k in obj) {
@@ -254,7 +258,11 @@ class MegaUtils {
     };
   };
 
-  //Method for taking an array of objects and returning the most common property
+  /*
+  Method for taking an array of objects and returning the most common property
+  * @param (Array) arr
+  * @returns {Array}
+ */
   static objMDN(arr) {
     let CNJ = {};
     for (let e of arr) {
@@ -536,8 +544,8 @@ class MegaUtils {
   };
 
   /*
-  Middle-Ware for rate-limiting | Must be implemented before routes are set up
-   * @param {Array} ipQueue
+  Middle-Ware for rate-limiting through Express | Must be implemented before routes are set up | ipQueue must be declared as an empty Object outside of function
+   * @param {Object} ipQueue
    * @param {Number} resetMS
    * @returns {Function}
   */
@@ -556,6 +564,41 @@ class MegaUtils {
         resetMS);
     });
   }
-}; 
 
- 
+  /*
+  Sends an HTTPS GET Request to a given path
+  @param {String} url
+  @returns (Object)
+  */
+  static httpsRequest(url){
+    async function retry(){
+      return await this.httpsRequest(url);
+    };
+    retry = retry.bind(this)
+    let rgx = new RegExp(require("./Regex.json")["URL"]);
+    let https = require('https');
+    if (!this.validateRgx(rgx, url)) throw new TypeError("INVALID URL");
+    return new Promise(function(resolve, reject){
+    let req = https.request(url, (response) =>{
+      if ([500,400,401,403,404,501].includes(response.statusCode)) reject(new Error(`REQUEST FAILED | ${response.statusCode}`));
+      let body = "";
+      let status = response.statusCode;
+      response.on("data", (chunk) =>{
+        body += chunk;
+      });
+      response.on("end", ()=>{
+        let json = false;
+        if (JSON.parse(body)) json = true;
+        resolve({
+          body, 
+          status,
+          json,
+          url,
+          retry
+        })
+      });
+    });
+    req.end();
+   });
+  };
+};
