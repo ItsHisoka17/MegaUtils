@@ -351,7 +351,24 @@ class MegaUtils {
    * @returns {Array<Boolean>}
   */
   static validateRgx(rgx, ...str) {
+    function arrayValidate(a){
+      if (!Array.isArray(a)) return false;
+      for (let n of a){
+        if (Array.isArray(n)) throw new TypeError("STRING ARRAY CANNOT BE NESTED");
+        if (rgx.exec(n)) {
+          a[a.indexOf(n)] = true;
+        } else {
+          a[a.indexOf(n)] = false;
+        };
+      };
+      return a;
+    };
     for (let e of str) {
+      let arr = arrayValidate(e);
+      if (arr) {
+        e = arr;
+        continue;
+      };
       if (rgx.exec(e)) {
         str[str.indexOf(e)] = true;
       } else {
@@ -587,12 +604,19 @@ class MegaUtils {
         body += chunk;
       });
       response.on("end", ()=>{
-        let json = false;
-        if (JSON.parse(body)) json = true;
+        let jsonTrue = false;
+        if (JSON.parse(body)) jsonTrue = true;
+        function json(){
+          if (JSON.parse(body)){
+            let j = JSON.parse(body) ? JSON.parse(body) : body;
+           return j;
+          }
+        }
         resolve({
           body, 
           status,
           json,
+          jsonTrue,
           url,
           retry
         })
