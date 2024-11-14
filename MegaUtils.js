@@ -626,3 +626,5 @@ class MegaUtils {
    });
   };
 };
+
+module.exports = MegaUtils;
