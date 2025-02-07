@@ -584,8 +584,8 @@ class MegaUtils {
 
   /*
   Sends an HTTPS GET Request to a given path
-  @param {String} url
-  @returns (Object)
+   * @param {String} url
+   * @returns (Object)
   */
   static httpsRequest(url){
     async function retry(){
@@ -625,6 +625,23 @@ class MegaUtils {
     req.end();
    });
   };
+
+  /* 
+   Removes properties from an object using a callback function
+    * @param {Object} obj
+    * @param {Function} callback
+    * @returns {Object}
+  */
+  static deleteProperty(obj, callback){
+      if (!obj instanceof Object) throw new TypeError("INVALID PARAMATER | PARAMATER NOT AN OBJECT");
+      for (let k in obj){
+        if (callback(obj[k])){
+          delete obj[k]
+        };
+      };
+      return obj;
+  };
+
 };
 
 module.exports = MegaUtils;
