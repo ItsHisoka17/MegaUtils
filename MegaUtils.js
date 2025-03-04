@@ -642,6 +642,46 @@ class MegaUtils {
       return obj;
   };
 
+  /*
+   Types Characters one by one at a set interval into an element
+    * @param {DOMOBject} e
+    * @param {String} text
+    * @param {Number} int
+    * @returns {Boolean}
+  */
+  static typeInElement(eId, text, int){
+    int = int === null ? 1000 : int;
+    let e = document.getElementById(eId);
+    let i = 0;
+    for (; i < text.length; i++){
+      setTimeout(((i)=>{
+       return function (){
+         e.innerHTML = e.innerHTML += text.charAt(i);
+       }
+      })(i), int * i);
+      return true;
+    };
+    
+  };
+  /*
+   Chrome/DOM Script
+   ***
+  ((eId, text, int)=>{
+    int = int === null ? 1000 : int;
+    let e = document.getElementById(eId);
+    let i = 0;
+    for (; i < text.length; i++){
+      setTimeout(((i)=>{
+       return function (){
+         e.innerHTML = e.innerHTML += text.charAt(i);
+       }
+      })(i), int * i)
+    }
+    return true
+  })
+   ***
+  */
+  
 };
 
 module.exports = MegaUtils;
