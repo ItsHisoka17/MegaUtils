@@ -682,6 +682,65 @@ class MegaUtils {
    ***
   */
   
+   /*
+   Fetches raw content from a Google File via HTTP request and decodes message based on X and Y coordinates
+   Web API or DOM based script
+   As part of assesment for DataAnnotation
+    * @param {String} url
+    * @returns {String}
+   */
+  static async decodeMessage(url){
+    let response, raw, parsed, elementArr;
+    let textArr = [];
+    response = await fetch(url);
+    raw = await response.text();
+    parsed = new DOMParser().parseFromString(raw, "text/html");
+    elementArr = parsed.querySelectorAll("div");
+    for (let e of elementArr) { 
+      textArr.push(e.textContent);
+    };
+    let content = textArr[8];
+    content = content.split("");
+    let decodeChars = content.slice(content.indexOf("0"));
+    let mappedArrayObj = [];
+    let i = 0;
+    let ind = 0;
+    for (; i < decodeChars.length/3; i++){
+      let obj = {};
+      obj["x"] = decodeChars[ind];
+      obj["char"] = decodeChars[ind+1];
+      obj["y"] = decodeChars[ind+2];
+      ind = ind+3;
+      mappedArrayObj.push(obj);
+    };
+    let maxX = 0;
+    let maxY = 0;
+    for (let i = 0; i < mappedArrayObj.length; i++){
+      let x = mappedArrayObj[i].x;
+      let y = mappedArrayObj[i].y;
+      maxX = x > maxX ? Number(x) : maxX;
+      maxY = y > maxY ? Number(y) : maxY;
+    };
+    maxX = maxX + 1;
+    maxY = maxY + 1;
+    let grid = [];
+    for (let i = 0; i < maxX; i++){
+      let row = new Array(maxY);
+      for (let ii = 0; ii < maxY; ii++){
+        row[ii] = " ";
+      };
+      grid.push(row);
+    };
+    for (let i = 0; i < mappedArrayObj.length; i++) {
+      let {x, char, y} = mappedArrayObj[i];
+      grid[Number(y)][Number(x)] = char;
+    }
+    let decoded = "";
+    for (let i = grid.length - 1; i >= 0; i--) {
+      decoded += `${grid[i].join("")}\n`;
+    };    
+    return decoded;
+  };
 };
 
 module.exports = MegaUtils;
