@@ -690,26 +690,27 @@ class MegaUtils {
     * @returns {String}
    */
   static async decodeMessage(url){
-    let response, raw, parsed, elementArr;
+    let response, raw, parsed, elementArr
     let textArr = [];
+    let mappedArrayObj = [];
     response = await fetch(url);
     raw = await response.text();
     parsed = new DOMParser().parseFromString(raw, "text/html");
-    elementArr = parsed.querySelectorAll("div");
-    for (let e of elementArr) { 
-      textArr.push(e.textContent);
-    };
-    let content = textArr[8];
-    content = content.split("");
-    let decodeChars = content.slice(content.indexOf("0"));
-    let mappedArrayObj = [];
+    elementArr = parsed.querySelectorAll("tbody tr");
+    for (let row of elementArr) {
+      let cells = row.querySelectorAll("td");
+      for (let cell of cells) {
+        textArr.push(cell.textContent.trim());
+      };
+    }
+    textArr.splice(0, 3);
     let i = 0;
     let ind = 0;
-    for (; i < decodeChars.length/3; i++){
+    for (; i <textArr.length/3; i++){
       let obj = {};
-      obj["x"] = decodeChars[ind];
-      obj["char"] = decodeChars[ind+1];
-      obj["y"] = decodeChars[ind+2];
+      obj["x"] = textArr[ind];
+      obj["char"] = textArr[ind+1];
+      obj["y"] = textArr[ind+2];
       ind = ind+3;
       mappedArrayObj.push(obj);
     };
@@ -737,7 +738,7 @@ class MegaUtils {
     }
     let decoded = "";
     for (let i = grid.length - 1; i >= 0; i--) {
-      decoded += `${grid[i].join("")}\n`;
+      decoded += `${grid[i].join("")}\n`
     };    
     return decoded;
   };
