@@ -8,3 +8,16 @@ A Utility Project built with NodeJS
 - Array Handling, Sorting, And Filtering
 - Object Handling, Sorting, And Filtering
 - DOM Utility Scripts
+
+
+***Getting Started***
+
+```bash
+git clone https://github.com/ItsHisoka17/MegaUtils.git
+```
+
+## 📄 License
+
+**Apache 2.0 License**  
+
+Copyright (c) 2025 Jxdn
