@@ -1,6 +1,6 @@
 # Mega Utils
 
-A Utility Project in Node JS with Methods, Regular Expressions, and more! - Created By Jaden
+A Utility Project built with NodeJS
 
 ## Utility Includes: 
 - Express MiddleWare
